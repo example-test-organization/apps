@@ -5,7 +5,6 @@ PROJECT=$(yq e .project-name ${PAYLOAD})
 QUOTA=$(yq e .quota[0] ${PAYLOAD})
 
 cd ${WORKING_DIR}/apps
-git checkout -b onboarding_${PROJECT}
 echo Repo: ${TARGET_REPO}
 
 echo Users:
