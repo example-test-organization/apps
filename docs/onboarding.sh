@@ -12,5 +12,5 @@ echo Users:
 yq e '.users = (.users | split(",")) ' data.yaml
 
 kustomize init
-git add -u
+git add kustomization.yaml
 git commit -m "onboarding pr."
