@@ -1,11 +1,11 @@
 # Pre-conditions:
-# Working directory is cloned apps repo
-#
+# Working directory contains apps repo clone
 
 PAYLOAD=${WORKING_DIR}/data.yaml
 PROJECT=$(yq e .project-name ${PAYLOAD})
 QUOTA=$(yq e .quota[0] ${PAYLOAD})
 
+cd ${WORKING_DIR}/apps
 git checkout -b onboarding_${PROJECT}
 echo Repo: ${TARGET_REPO}
 
