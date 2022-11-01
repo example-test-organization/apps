@@ -9,7 +9,7 @@ git checkout -b onboarding_${PROJECT}
 echo Repo: ${TARGET_REPO}
 
 echo Users:
-yq e '.users = (.users | split(",")) ' data.yaml
+yq e '.users = (.users | split(",")) ' ${PAYLOAD})
 
 kustomize init
 git add kustomization.yaml
