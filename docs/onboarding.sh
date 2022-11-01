@@ -1,5 +1,5 @@
 # Pre-conditions:
-# Working directory contains apps repo clone
+# Working directory contains apps repo clone.
 PAYLOAD=${WORKING_DIR}/data.yaml
 PROJECT=$(yq e .project-name ${PAYLOAD})
 QUOTA=$(yq e .quota[0] ${PAYLOAD})
