@@ -32,8 +32,11 @@ rm ${RBAC_PATH} -rf
 # Remove from cluster
 cd ${REPO}/cluster-scope/overlays/prod/common
 kustomize edit remove resource ../../../base/user.openshift.io/groups/${GROUP}
+yq -i '.resources |= sort' kustomization.yaml
+
 cd ${REPO}/cluster-scope/overlays/prod/${ENVIRONMENT}/${CLUSTER}
 kustomize edit remove resource ../../../../base/core/namespaces/${NAMESPACE}
+yq -i '.resources |= sort' kustomization.yaml
 
 # Commit changes
 cd ${REPO}
