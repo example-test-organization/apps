@@ -3,6 +3,7 @@ set -o allexport -o pipefail -ex
 # Pre-condition:
 # - Create the config file at location ${PAYLOAD_PATH}
 # - Clone the github.com/operate-first/apps repo at location ${WORKING_DIR}
+# - Working branch should be clean, checked out of upstream default branch.
 
 CONFIG=${PAYLOAD_PATH}
 REPO=${WORKING_DIR}/apps
@@ -33,5 +34,10 @@ cd ${REPO}/cluster-scope/overlays/prod/common
 kustomize edit remove resource ../../../base/user.openshift.io/groups/${GROUP}
 cd ${REPO}/cluster-scope/overlays/prod/${ENVIRONMENT}/${CLUSTER}
 kustomize edit remove resource ../../../../base/core/namespaces/${NAMESPACE}
+
+# Commit changes
+cd ${REPO}
+git add cluster-scope
+git commit -m "Offboarding team ${GROUP}."
 
 set -o allexport

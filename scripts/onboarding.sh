@@ -3,6 +3,7 @@ set -o allexport -o pipefail -ex
 # Pre-condition:
 # - Create the config file at location ${PAYLOAD_PATH}
 # - Clone the github.com/operate-first/apps repo at location ${WORKING_DIR}
+# - Working branch should be clean, checked out of upstream default branch.
 
 CONFIG=${PAYLOAD_PATH}
 REPO=${WORKING_DIR}/apps
@@ -81,6 +82,8 @@ kustomize edit add resource ../../../base/user.openshift.io/groups/${GROUP}
 yq -i '.resources |= sort' kustomization.yaml
 
 # Commit changes
-# TODO
+cd ${REPO}
+git add cluster-scope
+git commit -m "Onboarding team ${GROUP}."
 
 set -o allexport
