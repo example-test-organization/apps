@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    op1st/docs: https://team-x.com
+    op1st/onboarding-issue: https://github.com/example-test-organization/support/issues/17
+    op1st/project-owner: robert
+    openshift.io/display-name: teamx
+    openshift.io/requester: robert
+  name: teamx
