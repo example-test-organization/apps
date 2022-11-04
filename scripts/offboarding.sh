@@ -15,7 +15,6 @@ CLUSTER=$(yq e '.cluster[0] | downcase' ${CONFIG})
 NAMESPACE=$(yq e '.project-name | downcase' ${CONFIG})
 GROUP=$(yq e '.team-name' ${CONFIG})
 
-
 # Remove OCP Group for team being onboarded
 GROUP_PATH="${REPO}/cluster-scope/base/user.openshift.io/groups/${GROUP}";
 rm ${GROUP_PATH} -rf
