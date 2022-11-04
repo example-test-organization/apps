@@ -12,14 +12,7 @@ PROJECT=$(yq e .project-name ${CONFIG})
 ENVIRONMENT=moc
 CLUSTER=$(yq e '.cluster[0] | downcase' ${CONFIG})
 NAMESPACE=$(yq e '.project-name | downcase' ${CONFIG})
-REQUESTER=$(yq e '.project-owner' ${CONFIG})
-DISPLAY_NAME=$(yq e '.project-name' ${CONFIG})
-PROJECT_OWNER=$(yq e '.project-owner' ${CONFIG})
-ONBOARDING_ISSUE=https://github.com/${ORG_NAME}/${SOURCE_REPO}/issues/${ISSUE_NUMBER}
-DOCS=$(yq e '.project-docs-link' ${CONFIG})
 GROUP=$(yq e '.team-name' ${CONFIG})
-USERS=$(yq '.users | split(",") | map(trim)' -o json -I=0 ${CONFIG})
-QUOTA=$(yq e '.quota[0] | downcase' ${CONFIG})
 
 
 # Remove OCP Group for team being onboarded
@@ -36,6 +29,9 @@ RBAC_PATH="${REPO}/cluster-scope/components/project-admin-rolebindings/${GROUP}/
 rm ${RBAC_PATH} -rf
 
 # Remove from cluster
-# TODO
+cd ${REPO}/cluster-scope/overlays/prod/common
+kustomize edit remove resource ../../../base/user.openshift.io/groups/${GROUP}
+cd ${REPO}/cluster-scope/overlays/prod/${ENVIRONMENT}/${CLUSTER}
+kustomize edit remove resource ../../../../base/core/namespaces/${NAMESPACE}
 
 set -o allexport

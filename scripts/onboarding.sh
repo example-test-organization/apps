@@ -9,7 +9,7 @@ REPO=${WORKING_DIR}/apps
 
 # Unpack Config file, we will need these environment variables for the remainder of the steps
 PROJECT=$(yq e .project-name ${CONFIG})
-ENVIRONMENT=moc
+ENVIRONMENT=$(yq e '.environment[0] | downcase' ${CONFIG})
 CLUSTER=$(yq e '.cluster[0] | downcase' ${CONFIG})
 NAMESPACE=$(yq e '.project-name | downcase' ${CONFIG})
 REQUESTER=$(yq e '.project-owner' ${CONFIG})
@@ -77,7 +77,10 @@ yq -i '.resources |= sort' kustomization.yaml
 cd ${REPO}/cluster-scope/overlays/prod/common
 kustomize edit add resource ../../../base/user.openshift.io/groups/${GROUP}
 
-# Same as earlier, here we sort the resources field
+# Same as before, sort the resources field
 yq -i '.resources |= sort' kustomization.yaml
+
+# Commit changes
+# TODO
 
 set -o allexport
