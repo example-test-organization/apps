@@ -21,17 +21,6 @@ GROUP=$(yq e '.team-name' ${CONFIG})
 USERS=$(yq '.users | split(",") | map(trim)' -o json -I=0 ${CONFIG})
 QUOTA=$(yq e '.quota[0] | downcase' ${CONFIG})
 
-echo ENVIRONMENT $ENVIRONMENT
-echo CLUSTER $CLUSTER
-echo NAMESPACE $NAMESPACE
-echo REQUESTER $REQUESTER
-echo DISPLAY_NAME $DISPLAY_NAME
-echo PROJECT_OWNER $PROJECT_OWNER
-echo ONBOARDING_ISSUE $ONBOARDING_ISSUE
-echo DOCS $DOCS
-echo GROUP $GROUP
-echo USERS $USERS
-
 # Create OCP Group for team being onboarded
 
 GROUP_PATH="${REPO}/cluster-scope/base/user.openshift.io/groups/${GROUP}";
@@ -74,5 +63,21 @@ kustomize edit add resource rbac.yaml
 
 cd ${NAMESPACE_PATH}
 kustomize edit add resource ../../../../components/project-admin-rolebindings/${GROUP}
+
+# Up until now we have created resources in the base directory
+# We now need to include these resources onto the target cluster for which this team needs to be onboarded.
+# We do this by adding these newly created resources to the target cluster's overlay directory.
+
+cd ${REPO}/cluster-scope/overlays/prod/${ENVIRONMENT}/${CLUSTER}
+kustomize edit add resource ../../../../base/core/namespaces/${NAMESPACE}
+
+# We keep the resources list in kustomization.yaml sorted for human readability
+yq -i '.resources |= sort' kustomization.yaml
+
+cd ${REPO}/cluster-scope/overlays/prod/common
+kustomize edit add resource ../../../base/user.openshift.io/groups/${GROUP}
+
+# Same as earlier, here we sort the resources field
+yq -i '.resources |= sort' kustomization.yaml
 
 set -o allexport
