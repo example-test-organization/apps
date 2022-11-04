@@ -4,10 +4,8 @@ local display_name = std.extVar('DISPLAY_NAME');
 local project_owner = std.extVar('PROJECT_OWNER');
 local onboarding_issue = std.extVar('ONBOARDING_ISSUE');
 local docs = std.extVar('DOCS');
-local dir  = "cluster-scope/base/core/namespaces/" + namespace + "/";
 
 {
-  [dir + "namespace.yaml"]: {
     apiVersion: "v1",
     kind: "Namespace",
     metadata: {
@@ -21,4 +19,3 @@ local dir  = "cluster-scope/base/core/namespaces/" + namespace + "/";
       }
     }
   }
-}
