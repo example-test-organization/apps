@@ -1,7 +1,4 @@
-set -o allexport
-set -e
-set -x
-set -o pipefail
+set -o allexport -o pipefail -ex
 
 # Pre-condition:
 # - Create the config file at location ${PAYLOAD_PATH}
@@ -60,13 +57,13 @@ cd ${NAMESPACE_PATH}
 kustomize init ${NAMESPACE_PATH}
 kustomize edit add resource namespace.yaml
 kustomize edit set namespace ${NAMESPACE}
-kustomize edit add component ${REPO}/cluster-scope/components/limitranges/default
-kustomize edit add component ${REPO}/cluster-scope/components/resourcequotas/${QUOTA}
+kustomize edit add component ../../../../components/limitranges/default
+kustomize edit add component ../../../../components/resourcequotas/${QUOTA}
 
 # "Give the team being onboarded access to the Namespace via OCP rbac"
 
 cd ${REPO}
-RBAC_PATH="${REPO}/cluster-scope/components/project-admin-rolebindings/${GROUP}/"
+RBAC_PATH="${REPO}/cluster-scope/components/project-admin-rolebindings/${GROUP}"
 mkdir ${RBAC_PATH}
 jsonnet --ext-str GROUP --ext-code USERS scripts/jsonnet/rbac.jsonnet | yq -P > ${RBAC_PATH}/rbac.yaml
 cd ${RBAC_PATH}
@@ -76,6 +73,6 @@ kustomize edit add resource rbac.yaml
 # Add rbac to the namespace being onboarded.
 
 cd ${NAMESPACE_PATH}
-kustomize edit add resource ${RBAC_PATH}
+kustomize edit add resource ../../../../components/project-admin-rolebindings/${GROUP}
 
 set -o allexport

@@ -1,7 +1,4 @@
-set -o allexport
-set -e
-set -x
-set -o pipefail
+set -o allexport -o pipefail -ex
 
 # Pre-condition:
 # - Create the config file at location ${PAYLOAD_PATH}
