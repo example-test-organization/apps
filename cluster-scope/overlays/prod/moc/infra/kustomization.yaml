@@ -1,13 +1,10 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
-  - ../common
-  - ../../../../bundles/klusterletaddonconfig-editor/
   - ../../../../base/core/configmaps/cluster-monitoring-config
   - ../../../../base/core/configmaps/user-workload-monitoring-config
   - ../../../../base/core/namespaces/acm
+  - ../../../../base/core/namespaces/mimotej-namespace
   - ../../../../base/core/namespaces/open-cluster-management-observability
   - ../../../../base/core/namespaces/openshift-cnv
   - ../../../../base/core/namespaces/openshift-logging
@@ -37,10 +34,12 @@ resources:
   - ../../../../bundles/acme-operator
   - ../../../../bundles/external-secrets-operator
   - ../../../../bundles/idp-mgmt-operator
+  - ../../../../bundles/klusterletaddonconfig-editor/
   - ../../../../bundles/odf-external
+  - ../common
   - apiserver/api_server_cert.yaml
-  - configmaps/service-catalog-k8s-plugin.yaml
   - clusterversion.yaml
+  - configmaps/service-catalog-k8s-plugin.yaml
   - externalsecrets
   - kubeletconfigs/increase-worker-system-reserved-memory.yaml
   - metal3.io/provisionings/provisioning-configuration.yaml
@@ -53,12 +52,11 @@ resources:
   - nodes/os-ctrl-2.moc-infra.massopen.cloud.yaml
   - oauth
   - objectbucketclaims/thanos.yaml
-  - secrets
   - secret-mgmt
+  - secrets
   - storageclasses/ocs-external-storagecluster-ceph-rbd.yaml
 generators:
   - secret-generator.yaml
-
 patchesStrategicMerge:
   - subscriptions/cluster-logging-operator_patch.yaml
   - subscriptions/kubernetes-nmstate-operator_patch.yaml
