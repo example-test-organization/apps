@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    op1st/docs: https://example-project.com
+    op1st/onboarding-issue: https://github.com/example-test-organization/support/issues/20
+    op1st/project-owner: mimotej
+    openshift.io/display-name: mimotej-namespace
+    openshift.io/requester: mimotej
+  name: mimotej-namespace
