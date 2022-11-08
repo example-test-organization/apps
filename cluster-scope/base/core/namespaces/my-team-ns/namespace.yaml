@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    op1st/docs: https://my-project.com
+    op1st/onboarding-issue: https://github.com/example-test-organization/support/issues/22
+    op1st/project-owner: op1st
+    openshift.io/display-name: my-team-ns
+    openshift.io/requester: op1st
+  name: my-team-ns
